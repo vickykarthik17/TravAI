@@ -263,29 +263,6 @@ export function App() {
           onNavigate={setCurrentRole}
         />
       </main>
-
-      <footer className="border-t border-indigo-100/80 bg-white/70 backdrop-blur-sm py-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div>
-            &copy; 2026{' '}
-            <span className="font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Nexgile-TravAI
-            </span>{' '}
-            Autonomous Travel &amp; Hospitality Monorepo.
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
-              FastAPI + SQLite Active
-            </span>
-            <span className="px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-[10px] font-semibold">
-              React + Vite + Tailwind
-            </span>
-            <span className="px-2 py-0.5 rounded-full bg-violet-50 text-violet-700 border border-violet-200 text-[10px] font-semibold">
-              Vercel AI SDK
-            </span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
