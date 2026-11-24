@@ -535,7 +535,7 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                           </span>
                         </div>
                         <span className="px-2 py-0.5 rounded bg-emerald-200 text-emerald-800 font-bold text-[10px]">
-                          Ticket #{msg.payload?.ticket_id || 'SR'}
+                          Ticket Ref: {msg.payload?.ticket_id || 'SR'}
                         </span>
                       </div>
                     )}

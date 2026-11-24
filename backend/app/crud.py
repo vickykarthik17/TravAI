@@ -921,7 +921,7 @@ async def generate_ai_chat(db: AsyncSession, request: schemas.AIChatRequest) -> 
         requests_list = list(s_res.scalars().all())
 
         if requests_list:
-            items_str = "\n".join([f"- **#{r.id} {r.service_type}** ({r.priority} Priority): {r.notes} [Status: **{r.status}**]" for r in requests_list[:4]])
+            items_str = "\n".join([f"- **Ticket {r.id} · {r.service_type}** ({r.priority} Priority): {r.notes} [Status: **{r.status}**]" for r in requests_list[:4]])
             content = (
                 f"You have {len(requests_list)} logged service requests for Room {room_num}:\n\n"
                 f"{items_str}\n\n"
@@ -1057,14 +1057,14 @@ async def generate_ai_chat(db: AsyncSession, request: schemas.AIChatRequest) -> 
             action="CONCIERGE_SERVICE_REQUEST",
             target_type="ServiceRequest",
             target_id=f"TICKET-{new_req.id}",
-            details=f"Dispatched housekeeping ticket #{new_req.id} for Room {room_num}: '{item_requested}'."
+            details=f"Dispatched housekeeping ticket SR-{new_req.id} for Room {room_num}: '{item_requested}'."
         )
 
         content = (
             f"Your request has been successfully created and dispatched!\n\n"
             f"- Request Item: **{item_requested}**\n"
             f"- Destination: **Room {room_num} ({guest_name})**\n"
-            f"- Ticket Reference: **#SR-{new_req.id}**\n"
+            f"- Ticket Reference: **SR-{new_req.id}**\n"
             f"- Status: **Pending · Housekeeping Assigned**\n\n"
             f"A floor steward is preparing your items and will deliver them to Room {room_num} shortly. May I assist you with anything else?"
         )

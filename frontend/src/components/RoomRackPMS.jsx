@@ -113,30 +113,42 @@ export const RoomRackPMS = ({ rooms, onRoomsUpdated, currency = 'USD' }) => {
     switch (status) {
       case 'Available':
         return (
-          <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 text-xs font-semibold flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            Available / Clean
+          <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-300 text-[11px] font-bold flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+            </span>
+            Available
           </span>
         );
       case 'Occupied':
         return (
-          <span className="px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-600 border border-blue-500/30 text-xs font-semibold flex items-center gap-1.5">
-            <User className="w-3.5 h-3.5" />
+          <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-cyan-300 text-[11px] font-bold flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500 shadow-[0_0_8px_#06b6d4]"></span>
+            </span>
             Occupied
           </span>
         );
       case 'Dirty':
         return (
-          <span className="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-600 border border-amber-500/30 text-xs font-semibold flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
-            Needs Turn / Dirty
+          <span className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-300 text-[11px] font-bold flex items-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.25)]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_#f59e0b]"></span>
+            </span>
+            Needs Turn
           </span>
         );
       case 'Maintenance':
         return (
-          <span className="px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-600 border border-rose-500/30 text-xs font-semibold flex items-center gap-1.5">
-            <Wrench className="w-3.5 h-3.5" />
-            Out of Order / Maint
+          <span className="px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-300 text-[11px] font-bold flex items-center gap-1.5 shadow-[0_0_12px_rgba(244,63,94,0.25)]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></span>
+            </span>
+            Maintenance
           </span>
         );
       default:
@@ -146,21 +158,31 @@ export const RoomRackPMS = ({ rooms, onRoomsUpdated, currency = 'USD' }) => {
 
   const getCardClass = (status) => {
     switch (status) {
-      case 'Available': return 'status-available border-emerald-200';
-      case 'Occupied': return 'status-occupied border-blue-200';
-      case 'Dirty': return 'status-dirty border-amber-200';
-      case 'Maintenance': return 'status-maintenance border-rose-200';
-      default: return 'border-slate-200';
+      case 'Available': 
+        return 'border-emerald-200/90 hover:border-emerald-400 hover:shadow-[0_12px_32px_-4px_rgba(16,185,129,0.25),0_0_18px_rgba(16,185,129,0.2)]';
+      case 'Occupied': 
+        return 'border-blue-200/90 hover:border-cyan-400 hover:shadow-[0_12px_32px_-4px_rgba(6,182,212,0.25),0_0_18px_rgba(6,182,212,0.22)]';
+      case 'Dirty': 
+        return 'border-amber-200/90 hover:border-amber-400 hover:shadow-[0_12px_32px_-4px_rgba(245,158,11,0.25),0_0_18px_rgba(245,158,11,0.2)]';
+      case 'Maintenance': 
+        return 'border-rose-200/90 hover:border-rose-400 hover:shadow-[0_12px_32px_-4px_rgba(244,63,94,0.25),0_0_18px_rgba(244,63,94,0.2)]';
+      default: 
+        return 'border-slate-200';
     }
   };
 
   const getStatusStripe = (status) => {
     switch (status) {
-      case 'Available': return 'status-stripe status-stripe-available';
-      case 'Occupied': return 'status-stripe status-stripe-occupied';
-      case 'Dirty': return 'status-stripe status-stripe-dirty';
-      case 'Maintenance': return 'status-stripe status-stripe-maintenance';
-      default: return 'status-stripe bg-slate-200';
+      case 'Available': 
+        return 'absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.85)]';
+      case 'Occupied': 
+        return 'absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-600 shadow-[0_0_10px_rgba(6,182,212,0.85)]';
+      case 'Dirty': 
+        return 'absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 shadow-[0_0_10px_rgba(245,158,11,0.85)]';
+      case 'Maintenance': 
+        return 'absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-pink-400 to-red-600 shadow-[0_0_10px_rgba(244,63,94,0.85)]';
+      default: 
+        return 'absolute top-0 left-0 right-0 h-1 bg-slate-200';
     }
   };
 
@@ -208,49 +230,161 @@ export const RoomRackPMS = ({ rooms, onRoomsUpdated, currency = 'USD' }) => {
         </div>
       </div>
 
+      {/* Quick Status KPI HUD Bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <button
+          onClick={() => setFilterStatus('ALL')}
+          className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+            filterStatus === 'ALL'
+              ? 'bg-slate-900 text-white border-slate-900 shadow-md shadow-slate-900/20'
+              : 'bg-white/80 hover:bg-white text-slate-700 border-slate-200 hover:border-slate-300 shadow-sm'
+          }`}
+        >
+          <div className="text-[10px] uppercase font-bold tracking-wider opacity-70">Total Rooms</div>
+          <div className="text-xl font-black mt-0.5">{rooms.length}</div>
+        </button>
+
+        <button
+          onClick={() => setFilterStatus('Available')}
+          className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group cursor-pointer ${
+            filterStatus === 'Available'
+              ? 'bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/30'
+              : 'bg-emerald-50/70 hover:bg-emerald-50 text-emerald-900 border-emerald-200 hover:border-emerald-300 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">Available</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_6px_#10b981]"></span>
+            </span>
+          </div>
+          <div className="text-xl font-black mt-0.5">{rooms.filter(r => r.status === 'Available').length}</div>
+        </button>
+
+        <button
+          onClick={() => setFilterStatus('Occupied')}
+          className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group cursor-pointer ${
+            filterStatus === 'Occupied'
+              ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/30'
+              : 'bg-blue-50/70 hover:bg-blue-50 text-blue-900 border-blue-200 hover:border-cyan-300 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">Occupied</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500 shadow-[0_0_6px_#06b6d4]"></span>
+            </span>
+          </div>
+          <div className="text-xl font-black mt-0.5">{rooms.filter(r => r.status === 'Occupied').length}</div>
+        </button>
+
+        <button
+          onClick={() => setFilterStatus('Dirty')}
+          className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group cursor-pointer ${
+            filterStatus === 'Dirty'
+              ? 'bg-amber-500 text-white border-amber-500 shadow-md shadow-amber-500/30'
+              : 'bg-amber-50/70 hover:bg-amber-50 text-amber-900 border-amber-200 hover:border-amber-300 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">Needs Turn</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_6px_#f59e0b]"></span>
+            </span>
+          </div>
+          <div className="text-xl font-black mt-0.5">{rooms.filter(r => r.status === 'Dirty').length}</div>
+        </button>
+
+        <button
+          onClick={() => setFilterStatus('Maintenance')}
+          className={`p-3 rounded-2xl border text-left transition-all relative overflow-hidden group cursor-pointer ${
+            filterStatus === 'Maintenance'
+              ? 'bg-rose-500 text-white border-rose-500 shadow-md shadow-rose-500/30'
+              : 'bg-rose-50/70 hover:bg-rose-50 text-rose-900 border-rose-200 hover:border-rose-300 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-bold tracking-wider opacity-80">Maintenance</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500 shadow-[0_0_6px_#f43f5e]"></span>
+            </span>
+          </div>
+          <div className="text-xl font-black mt-0.5">{rooms.filter(r => r.status === 'Maintenance').length}</div>
+        </button>
+      </div>
+
       {/* Room Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
         {filteredRooms.map((room) => (
           <div
             key={room.id}
             onClick={() => handleOpenRoomModal(room)}
-            className={`glass-card card-clickable p-4 pt-5 rounded-xl border ${getCardClass(room.status)} group flex flex-col justify-between space-y-3 relative overflow-hidden`}
+            className={`glass-card card-clickable p-4 pt-5 rounded-2xl border ${getCardClass(room.status)} group flex flex-col justify-between space-y-3 relative overflow-hidden transition-all duration-300`}
           >
+            {/* Top Neon Stripe */}
             <div className={getStatusStripe(room.status)} />
-            {/* Top Bar: Room # & Status */}
-            <div className="flex items-start justify-between">
+
+            {/* Top Bar: Room Number & Status Badge */}
+            <div className="flex items-start justify-between gap-2 pt-1">
               <div>
-                <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Floor {room.floor}</span>
-                <h3 className="text-2xl font-black text-slate-800 font-display group-hover:text-blue-600 transition-colors">
-                  #{room.room_number}
-                </h3>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                  Floor {room.floor}
+                </span>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[9px] font-black tracking-widest uppercase px-1.5 py-0.5 rounded bg-slate-900 text-white shadow-sm">
+                    ROOM
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-900 font-display tracking-tight group-hover:text-blue-600 transition-colors">
+                    {room.room_number}
+                  </h3>
+                </div>
               </div>
-              <div>{getStatusBadge(room.status)}</div>
+              <div className="shrink-0">{getStatusBadge(room.status)}</div>
             </div>
 
             {/* Room Specs & Guest Info */}
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <div className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
                 <Bed className="w-3.5 h-3.5 text-blue-600" />
-                {room.room_type}
+                <span className="truncate">{room.room_type}</span>
               </div>
 
               {room.current_guest_name ? (
-                <div className="p-2 rounded-lg bg-blue-50 border border-blue-100 text-xs">
-                  <div className="text-[10px] text-blue-500 font-medium uppercase">Current Guest</div>
-                  <div className="font-semibold text-blue-700 truncate">{room.current_guest_name}</div>
+                <div className="p-2.5 rounded-xl bg-gradient-to-r from-blue-50/90 to-cyan-50/90 border border-blue-200/80 shadow-[0_0_12px_rgba(6,182,212,0.12)] text-xs flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 text-white flex items-center justify-center font-black text-[11px] shadow-[0_0_8px_rgba(6,182,212,0.4)] shrink-0">
+                    {room.current_guest_name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[9px] text-blue-500 font-bold uppercase tracking-wider leading-none mb-0.5">Current Guest</div>
+                    <div className="font-bold text-slate-800 truncate text-[11px]">{room.current_guest_name}</div>
+                  </div>
                 </div>
               ) : (
-                <div className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-500 italic">
-                  No guest checked in
+                <div className="p-2.5 rounded-xl bg-slate-50/80 border border-slate-200/80 text-xs text-slate-400 flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-slate-200/70 text-slate-400 flex items-center justify-center font-medium text-xs shrink-0">
+                    —
+                  </div>
+                  <div className="text-[11px] text-slate-400 italic">No guest checked in</div>
                 </div>
               )}
             </div>
 
-            {/* Bottom Bar: Price & Housekeeping Note */}
-            <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-xs text-slate-400">
-              <span className="font-bold text-emerald-700">{formatCurrency(room.base_price, currency)}/night</span>
-              <span className="btn-link text-[11px]">Manage &rarr;</span>
+            {/* Bottom Bar: Price & Action */}
+            <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div>
+                <span className="text-[9px] uppercase tracking-wider text-slate-400 block font-semibold leading-none mb-0.5">Rate</span>
+                <span className="font-black text-sm text-emerald-700 tracking-tight">
+                  {formatCurrency(room.base_price, currency)}
+                  <span className="text-[10px] font-normal text-slate-400">/nt</span>
+                </span>
+              </div>
+              <span className="text-[11px] font-bold text-blue-600 group-hover:text-cyan-600 flex items-center gap-1 group-hover:translate-x-1 transition-all">
+                Manage <span>&rarr;</span>
+              </span>
             </div>
 
           </div>
@@ -273,7 +407,7 @@ export const RoomRackPMS = ({ rooms, onRoomsUpdated, currency = 'USD' }) => {
               <div className="flex items-center gap-2">
                 <Building className="w-5 h-5 text-blue-600" />
                 <h3 className="text-xl font-bold text-slate-900 font-display">
-                  Manage Room #{selectedRoom.room_number}
+                  Manage Room {selectedRoom.room_number}
                 </h3>
               </div>
               <p className="text-xs text-slate-400 mt-1">
