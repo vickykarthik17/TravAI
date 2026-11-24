@@ -320,7 +320,7 @@ export const FloatingAIWidget = ({ user, currency = 'USD', onNavigate }) => {
               >
                 <input
                   type="text"
-                  placeholder="Ask anything (e.g. 'I need a room', 'temp 20C')..."
+                  placeholder="Ask anything (e.g. 'I need a room', 'Extra towels', '3-day trip')..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   className="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
