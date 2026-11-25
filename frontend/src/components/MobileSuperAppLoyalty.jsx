@@ -167,34 +167,34 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
   return (
     <div className="space-y-6">
       {/* Module Header */}
-      <section className="module-header module-header-purple flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+      <section className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800/90 shadow-2xl backdrop-blur-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-purple-600">Mobile Ecosystem</span>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200 flex items-center gap-1">
-              <Smartphone className="w-3 h-3 text-purple-600" /> Super App &amp; Loyalty Hub
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-purple-400">Mobile Ecosystem</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 flex items-center gap-1 shadow-[0_0_12px_rgba(168,85,247,0.2)]">
+              <Smartphone className="w-3 h-3 text-purple-400" /> Super App &amp; Loyalty Hub
             </span>
           </div>
-          <h2 className="mt-1 text-2xl font-bold text-slate-900 font-display">
+          <h2 className="mt-1 text-2xl font-bold text-white font-display">
             Mobile Super App &amp; Digital Loyalty Wallet
           </h2>
-          <p className="mt-2 text-sm text-slate-500 max-w-2xl">
+          <p className="mt-2 text-sm text-slate-400 max-w-2xl">
             Live interactive preview of the guest mobile companion: points redemption, passport/visa document vault, trip timeline, GPS discovery, and AR-assisted navigation.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-3.5 py-2 rounded-2xl bg-white border border-purple-200 text-xs shadow-sm flex items-center gap-2">
-            <Award className="w-4 h-4 text-purple-600" />
-            <span className="font-bold text-slate-900">{loyalty?.tier || 'Diamond Elite'}</span>
-            <span className="text-purple-600 font-bold">Tier Active</span>
+          <div className="px-3.5 py-2 rounded-2xl bg-slate-950/80 border border-purple-500/30 text-xs shadow-lg flex items-center gap-2">
+            <Award className="w-4 h-4 text-purple-400" />
+            <span className="font-bold text-white">{loyalty?.tier || 'Diamond Elite'}</span>
+            <span className="text-purple-400 font-bold">Tier Active</span>
           </div>
         </div>
       </section>
 
       {redeemNotice && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2.5 shadow-sm">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-2.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{redeemNotice}</span>
         </div>
       )}
@@ -332,7 +332,7 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                   <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                     <div>
                       <p className="font-bold text-slate-200">Travel Insurance Pass</p>
-                      <p className="text-[10px] text-slate-400">Allianz Global Care · Policy #99214</p>
+                      <p className="text-[10px] text-slate-400">Allianz Global Care · Policy ID 99214</p>
                     </div>
                     <CheckCircle2 className="w-4 h-4 text-indigo-400" />
                   </div>
@@ -390,57 +390,57 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
         {/* Loyalty & Rewards Controls Dashboard */}
         <div className="space-y-6">
           {/* Rewards Accrual & Tier Progress */}
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 space-y-4">
+          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl backdrop-blur-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-purple-600">Member Status</span>
-                <h3 className="text-xl font-bold text-slate-900 font-display">
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-400">Member Status</span>
+                <h3 className="text-xl font-bold text-white font-display">
                   {loyalty?.tier || 'Diamond Elite'} Tier Privileges
                 </h3>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-purple-950/60 border border-purple-500/30 text-purple-400 flex items-center justify-center shadow-lg">
                 <Award className="w-7 h-7" />
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               {loyalty?.perks ||
                 'Guaranteed room upgrades, late 4 PM checkout, complimentary daily artisan breakfast, high-speed Wi-Fi 6E, and executive lounge access.'}
             </p>
 
             <div className="space-y-2 pt-2">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-500 font-semibold">Tier Retention Pace:</span>
-                <strong className="text-slate-900">84,500 / 100,000 Points</strong>
+                <span className="text-slate-400 font-semibold">Tier Retention Pace:</span>
+                <strong className="text-white">84,500 / 100,000 Points</strong>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-600 to-indigo-600 h-full rounded-full" style={{ width: '84.5%' }} />
+              <div className="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
+                <div className="bg-gradient-to-r from-purple-500 to-indigo-500 h-full rounded-full" style={{ width: '84.5%' }} />
               </div>
               <p className="text-[11px] text-slate-400">15,500 points to unlock Diamond Elite Lifetime Ambassador tier.</p>
             </div>
           </div>
 
           {/* Razorpay Stored Credits & Travel Liquidity Reserve */}
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 space-y-4 bg-gradient-to-br from-white via-purple-50/20 to-indigo-50/30">
+          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl backdrop-blur-2xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-purple-600">Universal Liquidity Pouch</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                  <span className="text-xs font-bold uppercase tracking-wider text-purple-400">Universal Liquidity Pouch</span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
                     Razorpay Active (INR)
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 font-display mt-0.5">
+                <h3 className="text-xl font-bold text-white font-display mt-0.5">
                   Stored Razorpay Credits &amp; VIP Travel Balance
                 </h3>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   Biometric travel credits spendable across room bookings, concierge amenities, private jet charters, and gourmet dining.
                 </p>
               </div>
 
               <button
                 onClick={() => setShowRazorpayModal(true)}
-                className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-purple-600/20 transition-all cursor-pointer shrink-0"
+                className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-purple-600/30 transition-all cursor-pointer shrink-0"
               >
                 <Wallet className="w-4 h-4" />
                 <span>+ Top Up via Razorpay</span>
@@ -448,40 +448,40 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/90 shadow-lg">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Spendable Razorpay Credits</span>
-                <p className="text-2xl font-black text-purple-700 font-display mt-1">
+                <p className="text-2xl font-black text-purple-400 font-display mt-1">
                   ₹{((loyalty?.wallet_balance || 950) * 83).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
-                <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1 mt-1">
+                <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1 mt-1">
                   <CheckCircle2 className="w-3 h-3" /> Live spendable across 50+ channels
                 </span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/90 shadow-lg">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">USD Equivalent Balance</span>
-                <p className="text-2xl font-black text-slate-800 font-display mt-1">
+                <p className="text-2xl font-black text-white font-display mt-1">
                   ${(loyalty?.wallet_balance || 950).toFixed(2)}
                 </p>
                 <span className="text-[10px] text-slate-400 mt-1 block">Auto-converted at FX parity rate</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/90 shadow-lg">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Gateway Configuration</span>
-                <p className="text-xs font-bold text-slate-900 mt-2 flex items-center gap-1">
+                <p className="text-xs font-bold text-slate-200 mt-2 flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   Key ID: rzp_test_U3zTfszdEAEPYo
                 </p>
-                <span className="text-[10px] text-indigo-600 font-semibold mt-1 block">Live HMAC Verification Enabled</span>
+                <span className="text-[10px] text-indigo-400 font-semibold mt-1 block">Live HMAC Verification Enabled</span>
               </div>
             </div>
           </div>
 
           {/* Instant Points Redemption Store */}
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 space-y-4">
+          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl backdrop-blur-2xl space-y-4">
             <div className="flex items-center gap-2">
-              <Gift className="w-5 h-5 text-indigo-600" />
-              <h3 className="text-base font-bold text-slate-900 font-display">Instant 1-Click Points Redemption</h3>
+              <Gift className="w-5 h-5 text-indigo-400" />
+              <h3 className="text-base font-bold text-white font-display">Instant 1-Click Points Redemption</h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -505,18 +505,18 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                   desc: 'Private curbside transfer to SFO/OAK.',
                 },
               ].map((reward) => (
-                <div key={reward.title} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                <div key={reward.title} className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between">
                   <div>
-                    <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                    <span className="text-[10px] font-bold text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
                       {reward.points.toLocaleString()} Points
                     </span>
-                    <h4 className="text-xs font-bold text-slate-900 mt-2">{reward.title}</h4>
-                    <p className="text-[11px] text-slate-500 mt-1">{reward.desc}</p>
+                    <h4 className="text-xs font-bold text-white mt-2">{reward.title}</h4>
+                    <p className="text-[11px] text-slate-400 mt-1">{reward.desc}</p>
                   </div>
 
                   <button
                     onClick={() => handleRedeem(reward.points, reward.title)}
-                    className="mt-3 btn-primary text-[11px] py-1.5 w-full font-bold flex items-center justify-center gap-1"
+                    className="mt-3 btn-primary text-[11px] py-1.5 w-full font-bold flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <span>Redeem Now</span>
                     <ArrowRight className="w-3 h-3" />
@@ -527,50 +527,50 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
           </div>
 
           {/* Notification Preference Center */}
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 space-y-4">
+          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl backdrop-blur-2xl space-y-4">
             <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-amber-500" />
-              <h3 className="text-base font-bold text-slate-900 font-display">Push Notifications &amp; Alerts</h3>
+              <Bell className="w-5 h-5 text-amber-400" />
+              <h3 className="text-base font-bold text-white font-display">Push Notifications &amp; Alerts</h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
-                <span className="font-semibold text-slate-700">Flight Disruption Alerts</span>
+              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+                <span className="font-semibold text-slate-300">Flight Disruption Alerts</span>
                 <input
                   type="checkbox"
                   checked={pushSettings.flightDisruptions}
                   onChange={(e) => setPushSettings((p) => ({ ...p, flightDisruptions: e.target.checked }))}
-                  className="h-4 w-4 accent-indigo-600"
+                  className="h-4 w-4 accent-indigo-500"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
-                <span className="font-semibold text-slate-700">Concierge Recommendations</span>
+              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+                <span className="font-semibold text-slate-300">Concierge Recommendations</span>
                 <input
                   type="checkbox"
                   checked={pushSettings.conciergeOffers}
                   onChange={(e) => setPushSettings((p) => ({ ...p, conciergeOffers: e.target.checked }))}
-                  className="h-4 w-4 accent-indigo-600"
+                  className="h-4 w-4 accent-indigo-500"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
-                <span className="font-semibold text-slate-700">Room Readiness Notifications</span>
+              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+                <span className="font-semibold text-slate-300">Room Readiness Notifications</span>
                 <input
                   type="checkbox"
                   checked={pushSettings.roomReadiness}
                   onChange={(e) => setPushSettings((p) => ({ ...p, roomReadiness: e.target.checked }))}
-                  className="h-4 w-4 accent-indigo-600"
+                  className="h-4 w-4 accent-indigo-500"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
-                <span className="font-semibold text-slate-700">Loyalty Multipliers &amp; Deals</span>
+              <label className="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+                <span className="font-semibold text-slate-300">Loyalty Multipliers &amp; Deals</span>
                 <input
                   type="checkbox"
                   checked={pushSettings.loyaltyMultipliers}
                   onChange={(e) => setPushSettings((p) => ({ ...p, loyaltyMultipliers: e.target.checked }))}
-                  className="h-4 w-4 accent-indigo-600"
+                  className="h-4 w-4 accent-indigo-500"
                 />
               </label>
             </div>
@@ -580,34 +580,34 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
 
       {/* Razorpay Top-Up Modal */}
       {showRazorpayModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 max-w-lg w-full space-y-4 animate-scale-up">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl p-6 max-w-lg w-full space-y-4 animate-scale-up text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-500/20">
                   <Wallet className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-slate-900">Top Up Universal Travel Reserve</h3>
-                  <p className="text-[11px] text-slate-500">Secured by Razorpay Gateway · Test Mode</p>
+                  <h3 className="text-base font-bold text-white">Top Up Universal Travel Reserve</h3>
+                  <p className="text-[11px] text-slate-400">Secured by Razorpay Gateway · Test Mode</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowRazorpayModal(false)}
-                className="text-slate-400 hover:text-slate-600 text-sm font-bold cursor-pointer"
+                className="text-slate-400 hover:text-white text-sm font-bold cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
             {razorpaySuccessMsg && (
-              <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="p-3 rounded-2xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>{razorpaySuccessMsg}</span>
               </div>
             )}
 
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-slate-300">
               Select a verified credit package to top up your universal travel balance via Razorpay Test Mode:
             </p>
 
@@ -617,8 +617,8 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                   key={pkg.id}
                   className={`p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-all ${
                     selectedPackage === pkg.id
-                      ? 'bg-purple-50/70 border-purple-400 shadow-sm'
-                      : 'border-slate-200 hover:bg-slate-50'
+                      ? 'bg-purple-950/50 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.15)]'
+                      : 'border-slate-800 bg-slate-950/60 hover:bg-slate-950'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -628,39 +628,39 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                       value={pkg.id}
                       checked={selectedPackage === pkg.id}
                       onChange={(e) => setSelectedPackage(e.target.value)}
-                      className="accent-purple-600"
+                      className="accent-purple-500"
                     />
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-900">{pkg.title}</span>
-                        <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">
+                        <span className="text-xs font-bold text-white">{pkg.title}</span>
+                        <span className="text-[10px] font-bold text-purple-300 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-500/30">
                           {pkg.badge}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
+                      <p className="text-[11px] text-slate-400 mt-0.5">
                         +{pkg.credits.toLocaleString()} spendable credits added to wallet
                       </p>
                     </div>
                   </div>
-                  <span className="text-sm font-black text-slate-900 font-display">
+                  <span className="text-sm font-black text-white font-display">
                     ₹{pkg.price_inr.toLocaleString()}
                   </span>
                 </label>
               ))}
             </div>
 
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1.5 text-slate-600">
+            <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-2xl text-xs space-y-1.5 text-slate-300">
               <div className="flex justify-between">
                 <span>Razorpay Gateway Mode:</span>
-                <strong className="text-emerald-700 font-mono">Test Mode (Cards/UPI)</strong>
+                <strong className="text-emerald-400 font-mono">Test Mode (Cards/UPI)</strong>
               </div>
               <div className="flex justify-between">
                 <span>Key ID:</span>
-                <span className="font-mono text-[11px] text-slate-500">rzp_test_U3zTfszdEAEPYo</span>
+                <span className="font-mono text-[11px] text-slate-400">rzp_test_U3zTfszdEAEPYo</span>
               </div>
               <div className="flex justify-between">
                 <span>Simulated Cards:</span>
-                <span className="text-[11px] text-slate-500">Any test card / standard OTP</span>
+                <span className="text-[11px] text-slate-400">Any test card / standard OTP</span>
               </div>
             </div>
 

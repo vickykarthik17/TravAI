@@ -332,6 +332,17 @@ export const api = {
     link.remove();
   },
 
+  // MongoDB Atlas Cluster Connectivity
+  getMongoStatus: async () => {
+    const res = await client.get('/mongodb/status');
+    return res.data;
+  },
+
+  configureMongo: async (credentials) => {
+    const res = await client.post('/mongodb/configure', credentials);
+    return res.data;
+  },
+
   getHealth: async () => {
     const res = await client.get('/health');
     return res.data;

@@ -122,21 +122,21 @@ export const AuthPage = ({ onAuthenticated }) => {
         </div>
 
         {/* Form panel */}
-        <div className="bg-white p-8 sm:p-10 flex flex-col justify-center">
+        <div className="bg-slate-900/95 border-l border-slate-800/80 p-8 sm:p-10 flex flex-col justify-center text-white">
           <div className="lg:hidden flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white shadow-lg">
               <Hotel className="w-5 h-5" />
             </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent font-display">
+            <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-display">
               Nexgile-TravAI
             </span>
           </div>
 
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 font-display">
+            <h2 className="text-2xl font-bold text-white font-display">
               {mode === 'login' ? 'Welcome back' : 'Create your account'}
             </h2>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               {mode === 'login'
                 ? 'Sign in to access the operations console'
                 : 'Register to get started with the portal'}
@@ -144,14 +144,14 @@ export const AuthPage = ({ onAuthenticated }) => {
           </div>
 
           {/* Mode toggle */}
-          <div className="flex p-1 rounded-xl bg-slate-100 border border-slate-200 mb-6">
+          <div className="flex p-1 rounded-xl bg-slate-950 border border-slate-800 mb-6">
             <button
               type="button"
               onClick={() => { setMode('login'); setError(''); }}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 mode === 'login'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
-                  : 'text-slate-500 hover:text-slate-800 hover:bg-white/70'
+                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
               }`}
             >
               Sign In
@@ -162,7 +162,7 @@ export const AuthPage = ({ onAuthenticated }) => {
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 mode === 'signup'
                   ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-md'
-                  : 'text-slate-500 hover:text-slate-800 hover:bg-white/70'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
               }`}
             >
               Sign Up
@@ -170,13 +170,13 @@ export const AuthPage = ({ onAuthenticated }) => {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">
+            <div className="mb-4 p-3 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-300 text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">
+            <div className="mb-4 p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm">
               {success}
             </div>
           )}
@@ -184,7 +184,7 @@ export const AuthPage = ({ onAuthenticated }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">Full Name</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
@@ -200,7 +200,7 @@ export const AuthPage = ({ onAuthenticated }) => {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email Address</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
@@ -215,7 +215,7 @@ export const AuthPage = ({ onAuthenticated }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">Password</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
@@ -230,7 +230,7 @@ export const AuthPage = ({ onAuthenticated }) => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -240,16 +240,23 @@ export const AuthPage = ({ onAuthenticated }) => {
             {mode === 'signup' && (
               <>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Role</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Role</label>
                   <select value={form.role} onChange={update('role')} className="auth-input">
                     <option>Front Desk Staff</option>
+                    <option>Reservations Manager</option>
                     <option>Revenue Manager</option>
-                    <option>Corporate Travel Admin</option>
+                    <option>Housekeeping &amp; Maintenance Supervisor</option>
+                    <option>Hospitality Finance Director</option>
+                    <option>Property Administrator</option>
+                    <option>Channel Manager</option>
+                    <option>Corporate Travel Manager</option>
+                    <option>Travel Agency Approver</option>
+                    <option>VIP Guest / Traveler</option>
                     <option>Auditor</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Department (optional)</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Department (optional)</label>
                   <input
                     type="text"
                     value={form.department}
@@ -271,8 +278,8 @@ export const AuthPage = ({ onAuthenticated }) => {
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-slate-100">
-            <p className="text-xs text-slate-500 text-center mb-3">Quick 1-click demo access</p>
+          <div className="mt-6 pt-5 border-t border-slate-800">
+            <p className="text-xs text-slate-400 text-center mb-3">Quick 1-click demo access</p>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -295,7 +302,7 @@ export const AuthPage = ({ onAuthenticated }) => {
                   setError('');
                   setSuccess('');
                 }}
-                className="btn-outline w-full text-xs py-2 text-indigo-700 border-indigo-200 hover:bg-indigo-50"
+                className="btn-outline w-full text-xs py-2 text-indigo-300 border-indigo-500/40 hover:bg-indigo-950/50"
               >
                 Revenue Manager
               </button>

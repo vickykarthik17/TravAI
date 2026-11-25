@@ -492,12 +492,39 @@ async def export_reports(
             csv_data += f'"{rt.room_type}","{rt.date_str}",{rt.current_rate},{rt.ai_recommended_rate},{rt.confidence_score},"{rt.demand_factor}","{rt.status}"\n'
         return PlainTextResponse(content=csv_data, media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="revenue_report.csv"'})
 
+# --- MongoDB Atlas Status & Connectivity ---
+from app.mongodb import test_mongo_connection, update_mongo_configuration
+from pydantic import BaseModel
+
+class MongoConfigInput(BaseModel):
+    username: Optional[str] = None
+    password: Optional[str] = None
+    mongodb_uri: Optional[str] = None
+    database_name: Optional[str] = "nexgile_travai"
+
+@app.get("/api/v1/mongodb/status")
+async def mongodb_status():
+    """Verify MongoDB Atlas connectivity and list collection metadata for cluster0.tf8lwiu.mongodb.net."""
+    return await test_mongo_connection()
+
+@app.post("/api/v1/mongodb/configure")
+async def mongodb_configure(payload: MongoConfigInput):
+    """Dynamically configure credentials for cluster0.tf8lwiu.mongodb.net and test live connection."""
+    return await update_mongo_configuration(
+        username=payload.username,
+        password=payload.password,
+        raw_uri=payload.mongodb_uri,
+        db_name=payload.database_name
+    )
+
 # --- Health Check ---
 @app.get("/api/v1/health")
 async def health_check():
+    mongo_state = await test_mongo_connection()
     return {
         "status": "healthy",
-        "database": "connected (sqlite aiosqlite)",
+        "primary_database": "sqlite+aiosqlite (local) / mongodb atlas (ready)",
+        "mongodb_atlas": mongo_state,
         "modules": [
             "Cloud PMS (Front Desk, Housekeeping, Finance)",
             "Revenue Management & AI Yield Engine",

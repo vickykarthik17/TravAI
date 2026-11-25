@@ -19,63 +19,96 @@ import {
   Compass,
   BookmarkCheck,
   Building,
+  Building2,
   BellRing,
   Coffee,
   Check,
-  Plus
+  Plus,
+  UserCheck,
+  UserMinus,
+  CreditCard,
+  TrendingUp,
+  BarChart3,
+  Globe,
+  DollarSign,
+  Wrench,
+  ClipboardList,
+  Layers
 } from 'lucide-react';
 import { api } from '../services/api';
 import { formatCurrency } from '../utils/currency';
 
-const QUICK_ACTION_CARDS = [
+export const CONCIERGE_SCOPES = [
   {
-    id: 'res',
-    title: 'MY RESERVATION',
-    sub: 'Dates & Room',
-    prompt: 'What is my booking reference and stay details?',
-    icon: BookmarkCheck,
-    badge: 'PMS Live',
+    id: 'TRAVELER',
+    name: 'Traveler & In-Stay',
+    icon: User,
+    badge: 'Guest Mode',
+    actions: [
+      { id: 'res', title: 'MY RESERVATION', sub: 'Dates & Room', prompt: 'What is my booking reference and stay details?', icon: BookmarkCheck, badge: 'PMS Live' },
+      { id: 'req', title: 'MY REQUESTS', sub: 'Status & Towels', prompt: 'Show my service requests and their live status.', icon: Clock, badge: 'Live Queue' },
+      { id: 'hotel', title: 'HOTEL INFORMATION', sub: 'Amenities & Pool', prompt: 'What amenities and dining does my hotel offer?', icon: Building, badge: '24/7 Resort' },
+      { id: 'trip', title: 'PLAN MY TRIP', sub: 'Day Itineraries', prompt: 'Plan a 3-day luxury trip itinerary.', icon: Compass, badge: 'Bespoke AI' },
+      { id: 'dining', title: 'DINING & TOURS', sub: 'Curated Experiences', prompt: 'Recommend fine dining restaurants and VIP tours near my hotel.', icon: UtensilsCrossed, badge: 'Michelin Guide' },
+      { id: 'service', title: 'ROOM SERVICE', sub: 'Towel & Linens', prompt: 'Can I request extra bath towels and pillows for my room?', icon: BellRing, badge: 'Housekeeping' },
+    ]
   },
   {
-    id: 'req',
-    title: 'MY REQUESTS',
-    sub: 'Status & Towels',
-    prompt: 'Show my service requests and their live status.',
-    icon: Clock,
-    badge: 'Live Queue',
+    id: 'FRONT_DESK',
+    name: 'Front Desk Ops',
+    icon: Building2,
+    badge: 'Front Desk',
+    actions: [
+      { id: 'arr', title: "TODAY'S ARRIVALS", sub: 'Expected Check-ins', prompt: 'Who are the expected arrivals scheduled for today?', icon: UserCheck, badge: 'Arrivals' },
+      { id: 'ready', title: 'READY SUITES', sub: 'Clean & Inspected', prompt: 'Which suites are clean, inspected, and ready for walk-ins?', icon: CheckCircle2, badge: 'Inventory' },
+      { id: 'dep', title: 'DEPARTURES TODAY', sub: 'Pending Check-outs', prompt: 'Which in-house guests are scheduled for check-out today?', icon: UserMinus, badge: 'Departures' },
+      { id: 'folio', title: 'FOLIO BILLING', sub: 'Balance & Settle', prompt: 'How do I look up and settle a guest billing folio?', icon: CreditCard, badge: 'Settlement' },
+      { id: 'turn', title: 'ROOM TURNAROUND', sub: 'Dirty & In Progress', prompt: 'How many suites are currently dirty or in turnaround?', icon: Sparkles, badge: 'Turnaround' },
+      { id: 'tickets', title: 'GUEST TICKETS', sub: 'Towels & Requests', prompt: 'List active guest service requests for towels or amenities.', icon: BellRing, badge: 'Dispatch' },
+    ]
   },
   {
-    id: 'hotel',
-    title: 'HOTEL INFORMATION',
-    sub: 'Amenities & Pool',
-    prompt: 'What amenities and dining does my hotel offer?',
+    id: 'YIELD',
+    name: 'Yield Strategy',
+    icon: TrendingUp,
+    badge: 'Revenue & Yield',
+    actions: [
+      { id: 'yield', title: 'YIELD DIRECTIVES', sub: '41 Recommendations', prompt: 'Explain the current dynamic rate recommendations for our luxury suites.', icon: TrendingUp, badge: 'Optimizer' },
+      { id: 'surge', title: 'DEMAND SURGE', sub: 'Weekend Optimization', prompt: 'Which properties should we apply weekend demand surge pricing to?', icon: Zap, badge: 'Surge Pricing' },
+      { id: 'velocity', title: 'VELOCITY TRENDS', sub: 'Booking Pace', prompt: 'Compare weekday vs weekend booking velocity trends.', icon: BarChart3, badge: 'Analytics' },
+      { id: 'parity', title: 'RATE PARITY', sub: 'OTA Surveillance', prompt: 'What is our current rate parity status across Booking.com and Expedia?', icon: Globe, badge: 'Parity Sync' },
+      { id: 'direct', title: 'DIRECT RATIO', sub: 'Commission Savings', prompt: 'What is our direct booking revenue ratio vs OTA commissions?', icon: DollarSign, badge: 'Direct ROI' },
+      { id: 'adr', title: 'ADR & REVPAR', sub: 'Estate Performance', prompt: 'Summarize our average daily rate across resort and palace properties.', icon: ShieldCheck, badge: 'RevPAR Yield' },
+    ]
+  },
+  {
+    id: 'HOUSEKEEPING',
+    name: 'Housekeeping Sync',
+    icon: Sparkles,
+    badge: 'Facility Board',
+    actions: [
+      { id: 'dirty', title: 'DIRTY QUEUE', sub: 'Floor Turnaround', prompt: 'Which suites are currently marked DIRTY on Floor 1 and Floor 2?', icon: Sparkles, badge: 'Turnaround' },
+      { id: 'inspect', title: 'READY TO INSPECT', sub: 'Supervisor Queue', prompt: 'Show suites in turnaround ready for supervisor inspection.', icon: CheckCircle2, badge: 'QA Inspection' },
+      { id: 'amenity', title: 'AMENITY REQUESTS', sub: 'Towels & Pillows', prompt: 'List all active guest requests for extra towels, linens, or amenities.', icon: BellRing, badge: 'Priority High' },
+      { id: 'vip', title: 'VIP PROTOCOLS', sub: 'Presidential Suites', prompt: 'What are the standard turnover protocols for Presidential Suites?', icon: ShieldCheck, badge: 'VIP Standard' },
+      { id: 'turnpace', title: 'TURNAROUND PACE', sub: 'Cleaning Efficiency', prompt: 'How can we optimize suite turnaround velocity between check-outs?', icon: Clock, badge: 'SLA Tracking' },
+      { id: 'blocker', title: 'MAINTENANCE BLOCK', sub: 'Work Order Sync', prompt: 'Are there any suites with active maintenance blockers?', icon: Wrench, badge: 'Work Orders' },
+    ]
+  },
+  {
+    id: 'EXECUTIVE',
+    name: 'Executive Portfolio',
     icon: Building,
-    badge: '24/7 Resort',
-  },
-  {
-    id: 'trip',
-    title: 'PLAN MY TRIP',
-    sub: 'Day Itineraries',
-    prompt: 'Plan a 3-day luxury trip itinerary.',
-    icon: Compass,
-    badge: 'Bespoke AI',
-  },
-  {
-    id: 'dining',
-    title: 'DINING & TOURS',
-    sub: 'Curated Experiences',
-    prompt: 'Recommend fine dining restaurants and VIP tours near my hotel.',
-    icon: UtensilsCrossed,
-    badge: 'Michelin Guide',
-  },
-  {
-    id: 'service',
-    title: 'ROOM SERVICE',
-    sub: 'Towel & Linens',
-    prompt: 'Can I request extra bath towels and pillows for my room?',
-    icon: BellRing,
-    badge: 'Housekeeping',
-  },
+    badge: 'HQ Overview',
+    actions: [
+      { id: 'port', title: 'PORTFOLIO SUMMARY', sub: '21 Estates Overview', prompt: 'Summarize portfolio occupancy and arrivals across all 21 properties.', icon: Building, badge: '21 Estates' },
+      { id: 'drift', title: 'OCCUPANCY DRIFT', sub: 'Low Capacity Watch', prompt: 'Which properties currently have the lowest occupancy rate?', icon: TrendingUp, badge: 'Pacing Watch' },
+      { id: 'maintq', title: 'MAINTENANCE QUEUE', sub: 'Work Orders', prompt: 'List any unresolved critical maintenance work orders.', icon: Wrench, badge: 'Facility Risk' },
+      { id: 'brief', title: 'OPERATIONAL BRIEF', sub: 'Front Desk Sync', prompt: "Give me an executive briefing on today's front desk operations.", icon: ClipboardList, badge: 'Morning Brief' },
+      { id: 'channelrev', title: 'CHANNEL REVENUE', sub: 'Direct vs OTAs', prompt: 'How is direct website revenue performing compared to OTAs?', icon: Globe, badge: 'Yield Split' },
+      { id: 'directives', title: 'RATE DIRECTIVES', sub: 'Yield Strategy', prompt: 'What are the active dynamic rate recommendations for our suites?', icon: Zap, badge: 'AI Governance' },
+    ]
+  }
 ];
 
 const CHEF_MENU = [
@@ -114,11 +147,12 @@ const CHEF_MENU = [
 ];
 
 export const AIConciergeView = ({ user, currency = 'USD' }) => {
+  const [activeScope, setActiveScope] = useState('TRAVELER');
   const [messages, setMessages] = useState([
     {
       id: '1',
       role: 'assistant',
-      content: `Welcome to Nexgile Grand Resort, ${user?.full_name || 'Alexander Wright'}! I am your Ask Nexgile Luxury Concierge. Ask anything about your stay, room upgrades, complimentary amenities, fine dining, curated itineraries, or request room service.`,
+      content: `Welcome to Nexgile Grand Resort, ${user?.full_name || 'Alexander Wright'}! I am your Ask Nexgile Luxury Concierge and Operations Engine. Ask anything about your stay, room upgrades, complimentary amenities, fine dining, bespoke itineraries, front desk sync, or dynamic yield strategy.`,
       timestamp: 'Just now',
       suggestions: [
         'What is my booking reference and stay details?',
@@ -132,15 +166,15 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [activeChannel, setActiveChannel] = useState('App'); // App, WhatsApp, SMS, Email
+  const [activeChannel, setActiveChannel] = useState('App');
   const [selectedRoomNumber, setSelectedRoomNumber] = useState('101');
   const [serviceRequests, setServiceRequests] = useState([]);
-  const [activeTab, setActiveTab] = useState('CHAT'); // CHAT, DINING, REQUESTS
+  const [activeTab, setActiveTab] = useState('CHAT');
   const [escalated, setEscalated] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState({});
-  const [submitNotice, setSubmitNotice] = useState(null);
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [customAmenity, setCustomAmenity] = useState('Extra Bath Towels & Hypoallergenic Pillows');
+  const [submitNotice, setSubmitNotice] = useState(null);
 
   const messagesEndRef = useRef(null);
 
@@ -150,8 +184,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
   const loadServiceRequests = async () => {
     try {
-      const reqs = await api.getServiceRequests();
-      if (reqs) setServiceRequests(reqs);
+      const data = await api.getServiceRequests(selectedRoomNumber);
+      setServiceRequests(data);
     } catch (err) {
       console.error('Error fetching service requests:', err);
     }
@@ -162,66 +196,57 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
   }, [selectedRoomNumber]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (activeTab === 'CHAT') {
+      scrollToBottom();
+    }
+  }, [messages, activeTab]);
 
-  const handleSend = async (textToSend) => {
-    const text = textToSend || input;
-    if (!text.trim() || isLoading) return;
+  const handleSend = async (customPrompt) => {
+    const textToSend = customPrompt || input;
+    if (!textToSend.trim() || isLoading) return;
 
     const userMsg = {
       id: Date.now().toString(),
       role: 'user',
-      content: text,
+      content: textToSend,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
     setMessages((prev) => [...prev, userMsg]);
-    setInput('');
+    if (!customPrompt) setInput('');
     setIsLoading(true);
 
     try {
-      const chatHistory = [...messages, userMsg].map((m) => ({
+      const history = [...messages, userMsg].map((m) => ({
         role: m.role,
         content: m.content,
       }));
 
-      const res = await api.chatConcierge(
-        text,
-        'NXG-A89F4B',
-        chatHistory,
-        user?.full_name || 'Alexander Wright'
-      );
+      const res = await api.chatAI(history, user?.full_name, selectedRoomNumber, 'Concierge');
 
       const assistantMsg = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: res.reply,
+        content: res.content,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         suggestions: res.suggestions || [],
         action_type: res.action_type,
-        payload: res.payload,
+        action_data: res.action_data,
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
-
-      // If action created a service request, refresh request queue and show confirmation
       if (res.action_type === 'CREATE_SERVICE_REQUEST') {
-        const item = res.payload?.item || 'Guest Amenity';
-        setSubmitNotice(`Your request for "${item}" has been submitted and assigned to housekeeping!`);
-        setTimeout(() => setSubmitNotice(null), 6000);
         await loadServiceRequests();
       }
     } catch (err) {
-      console.error('Chat error:', err);
+      console.error('AI Concierge Error:', err);
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: 'I have logged your request directly with our guest services team. A staff member is attending to your inquiry.',
-          timestamp: 'Just now',
-          suggestions: ['Show my service requests and their live status.', 'What is my booking reference and stay details?'],
+          content: 'I apologize, our luxury concierge service is momentarily recalibrating. Please retry in a moment or click Escalate to Staff.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
     } finally {
@@ -298,47 +323,49 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
     setFeedbackGiven((prev) => ({ ...prev, [msgId]: isPositive ? 'up' : 'down' }));
   };
 
+  const currentScopeObj = CONCIERGE_SCOPES.find((s) => s.id === activeScope) || CONCIERGE_SCOPES[0];
+
   return (
     <div className="space-y-6">
-      {/* Module Header */}
-      <section className="module-header module-header-emerald flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+      {/* Module Header - Cyber-Luxe Obsidian with Cyan Glow */}
+      <section className="module-header module-header-blue flex flex-col lg:flex-row lg:items-center justify-between gap-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-600">AI Guest Experience</span>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-emerald-600" /> Powered by Vercel AI SDK
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">AI Concierge &amp; Operations</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/80 text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-[0_0_10px_rgba(245,158,11,0.25)]">
+              <Sparkles className="w-3 h-3 text-amber-400" /> 24/7 VIP Guest Butler &amp; Luxury Concierge
             </span>
           </div>
-          <h2 className="mt-1 text-2xl font-bold text-slate-900 font-display">
-            AI Guest Concierge &amp; Smart In-Stay Services
+          <h2 className="mt-1 text-2xl font-black text-white font-display tracking-tight">
+            AI Guest Concierge &amp; Smart Operations Hub
           </h2>
-          <p className="mt-2 text-sm text-slate-500 max-w-2xl">
-            Conversational hospitality engine offering predictive itinerary planning, in-stay amenity dispatch, 24/7 chef dining, and human staff escalation.
+          <p className="mt-2 text-sm text-slate-300 max-w-2xl">
+            Conversational hospitality engine offering predictive itinerary planning, in-stay amenity dispatch, dynamic yield strategy, and 24/7 chef dining.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Active Room Selector */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-emerald-200 text-xs shadow-sm">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-900/90 border border-cyan-500/30 text-xs shadow-lg">
             <span className="text-slate-400 font-semibold">Active Room:</span>
             <select
               value={selectedRoomNumber}
               onChange={(e) => setSelectedRoomNumber(e.target.value)}
-              className="font-bold text-emerald-800 bg-transparent focus:outline-none cursor-pointer"
+              className="font-bold text-cyan-300 bg-transparent focus:outline-none cursor-pointer"
             >
-              <option value="101">Room 101 (Executive Suite)</option>
-              <option value="102">Room 102 (Deluxe King)</option>
-              <option value="104">Room 104 (Studio Suite)</option>
-              <option value="201">Room 201 (Presidential Suite)</option>
-              <option value="301">Room 301 (Penthouse Suite)</option>
+              <option value="101" className="bg-slate-900 text-white">Room 101 (Executive Suite)</option>
+              <option value="102" className="bg-slate-900 text-white">Room 102 (Deluxe King)</option>
+              <option value="104" className="bg-slate-900 text-white">Room 104 (Studio Suite)</option>
+              <option value="201" className="bg-slate-900 text-white">Room 201 (Presidential Suite)</option>
+              <option value="301" className="bg-slate-900 text-white">Room 301 (Penthouse Suite)</option>
             </select>
           </div>
 
           <button
             onClick={handleEscalateToHuman}
-            className="px-3.5 py-2 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+            className="px-4 py-2 rounded-2xl bg-rose-950/80 hover:bg-rose-900/80 text-rose-300 border border-rose-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-lg hover:shadow-rose-500/20 cursor-pointer"
           >
-            <PhoneCall className="w-3.5 h-3.5 text-rose-600" />
+            <PhoneCall className="w-3.5 h-3.5 text-rose-400" />
             {escalated ? 'Ambassador Alerted!' : 'Escalate to Staff'}
           </button>
         </div>
@@ -346,33 +373,36 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
       {/* Submission Alert Banner */}
       {submitNotice && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2.5 shadow-sm animate-fade-in">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-200 text-xs flex items-center gap-2.5 shadow-xl animate-fade-in">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span className="font-semibold">{submitNotice}</span>
         </div>
       )}
 
       {/* Active Stay Profile Card */}
-      <div className="glass-card p-4 rounded-3xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-emerald-50/40 via-white to-indigo-50/30">
+      <div className="glass-card p-4 rounded-3xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-emerald-500/20">
-            101
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-black text-sm shadow-lg shadow-cyan-500/30 border border-cyan-400/30">
+            {selectedRoomNumber}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-slate-900">
+              <h3 className="text-sm font-bold text-white">
                 {user?.full_name || 'Alexander Wright'} · Executive Suite
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.2)]">
                 Diamond Elite
               </span>
             </div>
-            <p className="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
-              <span>PNR: <strong className="text-slate-800">NXG-A89F4B</strong></span>
+            <p className="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
+              <span>PNR: <strong className="text-cyan-300">NXG-A89F4B</strong></span>
               <span>•</span>
               <span>Sept 08 - Sept 12 (4 Nights)</span>
               <span>•</span>
-              <span className="text-emerald-700 font-semibold">Active In-Stay</span>
+              <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                Active In-Stay
+              </span>
             </p>
           </div>
         </div>
@@ -380,14 +410,14 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowRequestModal(true)}
-            className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+            className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5 text-emerald-600" />
+            <Plus className="w-3.5 h-3.5 text-cyan-400" />
             <span>Request Amenity</span>
           </button>
           <button
             onClick={() => handleSend('What is my booking reference and stay details?')}
-            className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all flex items-center gap-1.5"
+            className="btn-primary px-3.5 py-2 text-xs font-bold flex items-center gap-1.5"
           >
             <BookmarkCheck className="w-3.5 h-3.5" />
             <span>Stay Details</span>
@@ -395,37 +425,72 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
         </div>
       </div>
 
-      {/* 6 Quick Action Cards (Matching https://nexgile-travai.vercel.app/concierge) */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        {QUICK_ACTION_CARDS.map(({ id, title, sub, prompt, icon: Icon, badge }) => (
-          <button
-            key={id}
-            onClick={() => handleSend(prompt)}
-            className="p-3.5 rounded-2xl bg-white hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 text-left transition-all duration-200 shadow-sm hover:shadow-md group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="flex items-center justify-between w-full mb-2">
-              <div className="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Icon className="w-4 h-4" />
+      {/* Role-Aware Scope Switcher Bar (Discovered from https://nexgile-travai.vercel.app/concierge) */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              Interactive Operational Scope:
+            </span>
+          </div>
+          <span className="text-[11px] text-cyan-400 font-semibold">
+            {currentScopeObj.badge} Active
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {CONCIERGE_SCOPES.map(({ id, name, icon: ScopeIcon }) => {
+            const isSelected = activeScope === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setActiveScope(id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  isSelected
+                    ? 'bg-gradient-to-r from-cyan-500/25 to-blue-500/25 text-cyan-300 border border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                    : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-white hover:border-slate-700'
+                }`}
+              >
+                <ScopeIcon className={`w-3.5 h-3.5 ${isSelected ? 'text-cyan-400' : 'text-slate-500'}`} />
+                <span>{name}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 6 Quick Action Cards based on selected scope */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
+          {currentScopeObj.actions.map(({ id, title, sub, prompt, icon: Icon, badge }) => (
+            <button
+              key={id}
+              onClick={() => handleSend(prompt)}
+              className="p-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 hover:border-cyan-400/70 text-left transition-all duration-200 shadow-lg hover:shadow-[0_0_20px_rgba(6,182,212,0.25)] group cursor-pointer flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between w-full mb-2">
+                <div className="w-7 h-7 rounded-xl bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_8px_rgba(6,182,212,0.3)]">
+                  <Icon className="w-4 h-4" />
+                </div>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-300 bg-cyan-950/90 border border-cyan-500/30 px-1.5 py-0.5 rounded">
+                  {badge}
+                </span>
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/60 px-1.5 py-0.5 rounded">
-                {badge}
-              </span>
-            </div>
-            <div>
-              <h4 className="text-[11px] font-extrabold text-slate-800 tracking-wider font-display">
-                {title}
-              </h4>
-              <p className="text-[10px] text-slate-400 font-medium truncate mt-0.5">
-                {sub}
-              </p>
-            </div>
-          </button>
-        ))}
+              <div>
+                <h4 className="text-[11px] font-extrabold text-white tracking-wider font-display group-hover:text-cyan-300 transition-colors">
+                  {title}
+                </h4>
+                <p className="text-[10px] text-slate-400 font-medium truncate mt-0.5">
+                  {sub}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* View Tabs & Omnichannel Simulator */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-1 p-1 rounded-2xl bg-slate-100 border border-slate-200 w-full sm:w-auto">
+        <div className="flex items-center gap-1 p-1 rounded-2xl bg-slate-900/90 border border-slate-800 w-full sm:w-auto shadow-lg">
           {[
             { id: 'CHAT', label: 'AI Concierge Chat', icon: MessageSquare },
             { id: 'DINING', label: 'In-Room Dining Menu', icon: UtensilsCrossed },
@@ -436,8 +501,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
               onClick={() => setActiveTab(id)}
               className={`flex-1 sm:flex-none px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                 activeTab === id
-                  ? 'bg-white text-emerald-800 shadow-md shadow-emerald-500/10'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-gradient-to-r from-cyan-500/25 to-blue-500/25 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                  : 'text-slate-400 hover:text-white'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -455,8 +520,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
               onClick={() => setActiveChannel(channel)}
               className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border transition-colors cursor-pointer ${
                 activeChannel === channel
-                  ? 'bg-emerald-600 text-white border-emerald-600'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-cyan-500 text-white border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                  : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
               }`}
             >
               {channel}
@@ -467,35 +532,35 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
       {/* TAB 1: CONCIERGE CHAT */}
       {activeTab === 'CHAT' && (
-        <div className="glass-card rounded-3xl overflow-hidden border border-slate-200 flex flex-col h-[600px] shadow-sm">
+        <div className="glass-card rounded-3xl overflow-hidden border border-slate-800 flex flex-col h-[600px] shadow-2xl">
           {/* Chat Header */}
-          <div className="p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-white border-b border-slate-100 flex items-center justify-between">
+          <div className="p-4 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 border border-cyan-400/30">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-bold text-slate-900">ASK NEXGILE · LUXURY CONCIERGE</h3>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                  <h3 className="text-sm font-bold text-white tracking-wide">ASK NEXGILE · LUXURY CONCIERGE</h3>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/30">
                     Online · {activeChannel} Mode
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-slate-400" />
+                <p className="text-[11px] text-slate-400 flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-cyan-400" />
                   Nexgile Grand Resort · Room {selectedRoomNumber}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-              <Sun className="w-4 h-4 text-amber-500" />
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+              <Sun className="w-4 h-4 text-amber-400" />
               <span>SF 19°C · Clear Skies</span>
             </div>
           </div>
 
           {/* Messages Stream */}
-          <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/50">
+          <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-950/70">
             {messages.map((msg) => {
               const isAssistant = msg.role === 'assistant';
 
@@ -507,8 +572,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                   <div
                     className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 ${
                       isAssistant
-                        ? 'bg-emerald-600 text-white shadow-sm'
-                        : 'bg-indigo-600 text-white shadow-sm'
+                        ? 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/30'
+                        : 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/30'
                     }`}
                   >
                     {isAssistant ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
@@ -516,10 +581,10 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
                   <div className="space-y-2">
                     <div
-                      className={`p-4 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap shadow-sm ${
+                      className={`p-4 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap shadow-lg ${
                         isAssistant
-                          ? 'bg-white text-slate-800 border border-slate-200'
-                          : 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white'
+                          ? 'bg-slate-900/95 text-slate-100 border border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.4)]'
+                          : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium shadow-cyan-600/25'
                       }`}
                     >
                       {msg.content}
@@ -527,15 +592,15 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
                     {/* Action Card Confirmation if Ticket Created */}
                     {isAssistant && msg.action_type === 'CREATE_SERVICE_REQUEST' && (
-                      <div className="p-3 bg-emerald-50/80 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center justify-between gap-2 shadow-sm animate-fade-in">
+                      <div className="p-3 bg-emerald-950/80 border border-emerald-500/40 rounded-xl text-xs text-emerald-200 flex items-center justify-between gap-2 shadow-lg animate-fade-in">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                           <span className="font-semibold">
-                            Dispatched to Housekeeping: {msg.payload?.item || 'Guest Request'}
+                            Dispatched to Housekeeping: {msg.action_data?.item || 'Guest Request'}
                           </span>
                         </div>
-                        <span className="px-2 py-0.5 rounded bg-emerald-200 text-emerald-800 font-bold text-[10px]">
-                          Ticket Ref: {msg.payload?.ticket_id || 'SR'}
+                        <span className="px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-300 font-bold text-[10px] border border-emerald-500/40">
+                          Ticket Ref: {msg.action_data?.ticket_id || 'SR'}
                         </span>
                       </div>
                     )}
@@ -547,7 +612,7 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                           <button
                             key={sugg}
                             onClick={() => handleSend(sugg)}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-[11px] font-semibold transition-all cursor-pointer"
+                            className="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 text-[11px] font-semibold transition-all cursor-pointer shadow-sm hover:shadow-[0_0_10px_rgba(6,182,212,0.3)]"
                           >
                             {sugg}
                           </button>
@@ -557,16 +622,16 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
                     {/* AI Governance & Rationale */}
                     {isAssistant && (
-                      <div className="flex items-center justify-between text-[10px] text-slate-400 px-1">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 px-1">
                         <span className="flex items-center gap-1 font-mono">
-                          <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                          <ShieldCheck className="w-3 h-3 text-cyan-400" />
                           AI Confidence: 98.4% · Hospitality Verified
                         </span>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleGiveFeedback(msg.id, true)}
-                            className={`p-1 rounded hover:bg-slate-200 ${
-                              feedbackGiven[msg.id] === 'up' ? 'text-emerald-600' : ''
+                            className={`p-1 rounded hover:bg-slate-800 ${
+                              feedbackGiven[msg.id] === 'up' ? 'text-cyan-400' : 'text-slate-500'
                             }`}
                             title="Helpful"
                           >
@@ -574,8 +639,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                           </button>
                           <button
                             onClick={() => handleGiveFeedback(msg.id, false)}
-                            className={`p-1 rounded hover:bg-slate-200 ${
-                              feedbackGiven[msg.id] === 'down' ? 'text-rose-600' : ''
+                            className={`p-1 rounded hover:bg-slate-800 ${
+                              feedbackGiven[msg.id] === 'down' ? 'text-rose-400' : 'text-slate-500'
                             }`}
                             title="Needs Improvement"
                           >
@@ -589,8 +654,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
               );
             })}
             {isLoading && (
-              <div className="flex items-center gap-2 text-xs text-slate-400 pl-11">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-500 animate-spin" />
+              <div className="flex items-center gap-2 text-xs text-cyan-400 pl-11">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
                 <span>AI Concierge is curating your personalized hospitality response...</span>
               </div>
             )}
@@ -603,19 +668,19 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 bg-white border-t border-slate-100 flex items-center gap-2"
+            className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2"
           >
             <input
               type="text"
               placeholder={`Ask Concierge via ${activeChannel} (e.g. 'Can I request extra bath towels?', 'Suggest fine dining', '3-day itinerary')...`}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-xs bg-slate-50 focus:bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="flex-1 px-4 py-2.5 rounded-xl border border-slate-700/80 text-xs bg-slate-900 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="btn-success px-4 py-2.5 text-xs font-bold"
+              className="btn-primary px-4 py-2.5 text-xs font-bold"
             >
               <Send className="w-3.5 h-3.5" />
               <span>Send</span>
@@ -627,41 +692,41 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
       {/* TAB 2: IN-ROOM DINING */}
       {activeTab === 'DINING' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-between shadow-xl">
             <div className="flex items-center gap-2">
-              <UtensilsCrossed className="w-5 h-5 text-emerald-600" />
+              <UtensilsCrossed className="w-5 h-5 text-cyan-400" />
               <div>
-                <h4 className="text-xs font-bold text-slate-900">24/7 Chef Dining to Room {selectedRoomNumber}</h4>
-                <p className="text-[11px] text-slate-500">Fast 25-minute room delivery directly dispatched to kitchen</p>
+                <h4 className="text-xs font-bold text-white">24/7 Chef Dining to Room {selectedRoomNumber}</h4>
+                <p className="text-[11px] text-slate-400">Fast 25-minute room delivery directly dispatched to kitchen</p>
               </div>
             </div>
-            <span className="px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-[10px]">
+            <span className="px-2.5 py-1 rounded-full bg-cyan-500 text-white font-bold text-[10px] shadow-[0_0_10px_rgba(6,182,212,0.4)]">
               Kitchen Open
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {CHEF_MENU.map((dish) => (
-              <div key={dish.id} className="glass-card p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
+              <div key={dish.id} className="glass-card p-4 rounded-2xl border border-slate-800 flex flex-col justify-between hover:border-cyan-500/50 shadow-xl">
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                       {dish.tag}
                     </span>
-                    <span className="text-base font-black text-slate-900 font-display">
+                    <span className="text-base font-black text-emerald-400 font-display">
                       {formatCurrency(dish.price, currency)}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-slate-900 mt-2">{dish.title}</h4>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">{dish.desc}</p>
+                  <h4 className="text-sm font-bold text-white mt-2">{dish.title}</h4>
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">{dish.desc}</p>
                 </div>
-                <div className="pt-4 flex items-center justify-between border-t border-slate-100 mt-3">
+                <div className="pt-4 flex items-center justify-between border-t border-slate-800/80 mt-3">
                   <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                    <Clock className="w-3 h-3" /> Delivery: {dish.time}
+                    <Clock className="w-3 h-3 text-cyan-400" /> Delivery: {dish.time}
                   </span>
                   <button
                     onClick={() => handleQuickOrder(dish)}
-                    className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all cursor-pointer"
+                    className="btn-primary px-3.5 py-1.5 text-xs font-bold"
                   >
                     Order to Room
                   </button>
@@ -674,55 +739,55 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
       {/* TAB 3: LIVE SERVICE REQUESTS */}
       {activeTab === 'REQUESTS' && (
-        <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-          <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+        <div className="bg-slate-900/90 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+          <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Live Guest Service Tickets</h3>
-              <p className="text-xs text-slate-500">Active housekeeping, luggage, and dining requests in queue</p>
+              <h3 className="text-sm font-bold text-white">Live Guest Service Tickets</h3>
+              <p className="text-xs text-slate-400">Active housekeeping, luggage, and dining requests in queue</p>
             </div>
             <button
               onClick={() => setShowRequestModal(true)}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm"
+              className="btn-primary px-3.5 py-2 text-xs font-bold flex items-center gap-1.5"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>+ New Amenity Request</span>
             </button>
           </div>
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-800">
             {serviceRequests.length === 0 ? (
-              <div className="p-8 text-center text-slate-400 text-xs">
+              <div className="p-8 text-center text-slate-500 text-xs">
                 No active service requests for this room. All requests have been completed.
               </div>
             ) : (
               serviceRequests.map((req) => (
-                <div key={req.id} className="p-4 flex items-center justify-between gap-4">
+                <div key={req.id} className="p-4 flex items-center justify-between gap-4 hover:bg-slate-850/50 transition-colors">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-slate-900">Room {req.room_number}</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">
+                      <span className="text-xs font-bold text-white">Room {req.room_number}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-cyan-300 border border-slate-700">
                         {req.service_type}
                       </span>
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           req.priority === 'Urgent'
-                            ? 'bg-rose-100 text-rose-800'
-                            : 'bg-blue-100 text-blue-800'
+                            ? 'bg-rose-950 text-rose-300 border border-rose-500/40'
+                            : 'bg-blue-950 text-blue-300 border border-blue-500/40'
                         }`}
                       >
                         {req.priority}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-600">{req.notes}</p>
-                    <p className="text-[10px] text-slate-400">Guest: {req.guest_name}</p>
+                    <p className="text-xs text-slate-300">{req.notes}</p>
+                    <p className="text-[10px] text-slate-500">Guest: {req.guest_name}</p>
                   </div>
 
                   <span
                     className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
                       req.status === 'Completed'
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
                         : req.status === 'In Progress'
-                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                        : 'bg-amber-50 text-amber-700 border border-amber-200'
+                        ? 'bg-blue-950 text-blue-300 border border-blue-500/40'
+                        : 'bg-amber-950 text-amber-300 border border-amber-500/40'
                     }`}
                   >
                     {req.status}
@@ -736,21 +801,21 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
 
       {/* Amenity Request Modal */}
       {showRequestModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 max-w-md w-full space-y-4 animate-scale-up">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl p-6 max-w-md w-full space-y-4 animate-scale-up">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <BellRing className="w-5 h-5 text-emerald-600" />
-                <h3 className="text-base font-bold text-slate-900">Request Guest Amenity</h3>
+                <BellRing className="w-5 h-5 text-cyan-400" />
+                <h3 className="text-base font-bold text-white">Request Guest Amenity</h3>
               </div>
               <button
                 onClick={() => setShowRequestModal(false)}
-                className="text-slate-400 hover:text-slate-600 text-sm font-bold"
+                className="text-slate-400 hover:text-white text-sm font-bold"
               >
                 ✕
               </button>
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Select an amenity or service for immediate delivery to Room {selectedRoomNumber}:
             </p>
 
@@ -767,8 +832,8 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                   key={opt}
                   className={`flex items-center gap-2 p-3 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${
                     customAmenity === opt
-                      ? 'bg-emerald-50 border-emerald-300 text-emerald-900 shadow-sm'
-                      : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                      ? 'bg-cyan-950/60 border-cyan-400/80 text-cyan-200 shadow-md'
+                      : 'border-slate-800 text-slate-300 hover:bg-slate-800/60'
                   }`}
                 >
                   <input
@@ -777,7 +842,7 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                     value={opt}
                     checked={customAmenity === opt}
                     onChange={(e) => setCustomAmenity(e.target.value)}
-                    className="accent-emerald-600"
+                    className="accent-cyan-400"
                   />
                   <span>{opt}</span>
                 </label>
@@ -787,13 +852,13 @@ export const AIConciergeView = ({ user, currency = 'USD' }) => {
                 <button
                   type="button"
                   onClick={() => setShowRequestModal(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                  className="px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-success px-5 py-2 text-xs font-bold"
+                  className="btn-primary px-5 py-2 text-xs font-bold"
                 >
                   Confirm Request
                 </button>
