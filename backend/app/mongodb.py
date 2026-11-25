@@ -110,12 +110,27 @@ async def test_mongo_connection() -> Dict[str, Any]:
             "message": f"Successfully connected to MongoDB Atlas cluster {CLUSTER_HOST}!"
         }
     except Exception as e:
+        err_str = str(e)
+        if "bad auth" in err_str.lower() or "authentication failed" in err_str.lower():
+            friendly_msg = (
+                f"Authentication failed on {CLUSTER_HOST}: The database credentials were rejected. "
+                "In MongoDB Cloud, go to 'Database Access' -> 'Database Users' to ensure a database user exists "
+                "with matching username and password (distinct from your Atlas account login)."
+            )
+        elif "timeout" in err_str.lower() or "serverselectiontimeouterror" in err_str.lower():
+            friendly_msg = (
+                f"Network timeout contacting {CLUSTER_HOST}. Please ensure 'Network Access' in MongoDB Atlas "
+                "has an entry allowing 0.0.0.0/0 (Allow access from anywhere)."
+            )
+        else:
+            friendly_msg = f"Connection error on {CLUSTER_HOST}: {err_str}"
+
         return {
             "status": "connection_failed",
             "connected": False,
             "cluster_host": CLUSTER_HOST,
-            "error": str(e),
-            "message": f"Could not connect to {CLUSTER_HOST}. Please verify username/password and that Network Access allows 0.0.0.0/0 in MongoDB Atlas."
+            "error": err_str,
+            "message": friendly_msg
         }
 
 async def update_mongo_configuration(

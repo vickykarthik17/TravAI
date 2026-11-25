@@ -18,7 +18,10 @@ import {
   Building,
   Phone,
   Database,
-  Server
+  Server,
+  HelpCircle,
+  ExternalLink,
+  Lock
 } from 'lucide-react';
 import { CURRENCY_RATES } from '../utils/currency';
 import { LANGUAGES } from '../utils/i18n';
@@ -62,6 +65,9 @@ export const UserProfileModal = ({
   // MongoDB Atlas Cloud State
   const [mongoUser, setMongoUser] = useState('');
   const [mongoPass, setMongoPass] = useState('');
+  const [mongoUri, setMongoUri] = useState('');
+  const [useRawUri, setUseRawUri] = useState(false);
+  const [showMongoGuide, setShowMongoGuide] = useState(false);
   const [mongoStatus, setMongoStatus] = useState(null);
   const [isTestingMongo, setIsTestingMongo] = useState(false);
 
@@ -75,11 +81,10 @@ export const UserProfileModal = ({
     setIsTestingMongo(true);
     setMongoStatus(null);
     try {
-      const res = await api.configureMongo({
-        username: mongoUser,
-        password: mongoPass,
-        database_name: 'nexgile_travai'
-      });
+      const payload = useRawUri && mongoUri.trim()
+        ? { mongodb_uri: mongoUri.trim(), database_name: 'nexgile_travai' }
+        : { username: mongoUser.trim(), password: mongoPass.trim(), database_name: 'nexgile_travai' };
+      const res = await api.configureMongo(payload);
       setMongoStatus(res.test_result || res);
     } catch (err) {
       setMongoStatus({
@@ -426,37 +431,108 @@ export const UserProfileModal = ({
                 <span className="font-mono text-cyan-300 font-bold">cluster0.tf8lwiu.mongodb.net</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                <div>
-                  <label className="block text-[11px] text-slate-400 mb-1">Atlas Database Username</label>
-                  <input
-                    type="text"
-                    value={mongoUser}
-                    onChange={(e) => setMongoUser(e.target.value)}
-                    placeholder="e.g. admin or db_user"
-                    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs outline-none focus:border-emerald-400"
-                  />
+              {/* Mode Toggle & Guide Button */}
+              <div className="flex items-center justify-between text-[11px] pt-1">
+                <div className="flex items-center gap-1 p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setUseRawUri(false)}
+                    className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                      !useRawUri ? 'bg-slate-800 text-cyan-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    Username & Password
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setUseRawUri(true)}
+                    className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                      useRawUri ? 'bg-slate-800 text-cyan-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    Connection URI
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-[11px] text-slate-400 mb-1">Atlas Database Password</label>
-                  <input
-                    type="password"
-                    value={mongoPass}
-                    onChange={(e) => setMongoPass(e.target.value)}
-                    placeholder="Enter password..."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs outline-none focus:border-emerald-400"
-                  />
-                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowMongoGuide(!showMongoGuide)}
+                  className="inline-flex items-center gap-1 text-[11px] text-amber-400/90 hover:text-amber-300 transition-colors"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>{showMongoGuide ? 'Hide Setup Steps' : 'Atlas Setup Guide'}</span>
+                </button>
               </div>
 
+              {/* Expandable Atlas Guide */}
+              {showMongoGuide && (
+                <div className="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 text-amber-200/90 text-[11px] space-y-2">
+                  <div className="font-bold text-amber-300 flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-amber-400" />
+                    <span>How to connect your MongoDB Atlas Cluster:</span>
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1 text-slate-300 pl-1 leading-relaxed">
+                    <li>Open your MongoDB Atlas dashboard (Cloud: MongoDB Cloud).</li>
+                    <li>Go to <strong className="text-white">Security &rarr; Database Access</strong> and verify or create a <strong className="text-white">Database User</strong> (Password auth, e.g. username <code className="text-amber-300 font-mono">admin</code> or <code className="text-amber-300 font-mono">nexgile</code> with Read/Write role).</li>
+                    <li>Go to <strong className="text-white">Security &rarr; Network Access</strong> and confirm IP <code className="text-emerald-400 font-mono">0.0.0.0/0</code> (Allow Access from Anywhere) is active.</li>
+                    <li>Enter those database credentials below and click <strong className="text-white">Connect & Test MongoDB Atlas</strong>.</li>
+                  </ol>
+                </div>
+              )}
+
+              {/* Inputs */}
+              {!useRawUri ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Atlas Database Username</label>
+                    <input
+                      type="text"
+                      value={mongoUser}
+                      onChange={(e) => setMongoUser(e.target.value)}
+                      placeholder="e.g. admin or db_user"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs outline-none focus:border-emerald-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Atlas Database Password</label>
+                    <input
+                      type="password"
+                      value={mongoPass}
+                      onChange={(e) => setMongoPass(e.target.value)}
+                      placeholder="Enter password..."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs outline-none focus:border-emerald-400"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="text-xs">
+                  <label className="block text-[11px] text-slate-400 mb-1">MongoDB Atlas Connection URI</label>
+                  <input
+                    type="password"
+                    value={mongoUri}
+                    onChange={(e) => setMongoUri(e.target.value)}
+                    placeholder="mongodb+srv://<user>:<password>@cluster0.tf8lwiu.mongodb.net/..."
+                    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs outline-none focus:border-emerald-400"
+                  />
+                  <p className="text-[10px] text-slate-500 mt-1">Copy directly from MongoDB Atlas &rarr; Connect &rarr; Drivers</p>
+                </div>
+              )}
+
               {mongoStatus && (
-                <div className={`p-2.5 rounded-xl text-xs flex items-center gap-2 ${
+                <div className={`p-2.5 rounded-xl text-xs flex items-start gap-2 ${
                   mongoStatus.connected
                     ? 'bg-emerald-950/70 border border-emerald-500/40 text-emerald-300'
                     : 'bg-amber-950/70 border border-amber-500/40 text-amber-300'
                 }`}>
-                  <span className={`w-2 h-2 rounded-full ${mongoStatus.connected ? 'bg-emerald-400' : 'bg-amber-400'}`} />
-                  <span className="flex-1 text-[11px] leading-relaxed">{mongoStatus.message}</span>
+                  <span className={`w-2 h-2 rounded-full mt-1 shrink-0 ${mongoStatus.connected ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+                  <div className="flex-1 text-[11px] leading-relaxed">
+                    <p>{mongoStatus.message}</p>
+                    {mongoStatus.connected && mongoStatus.collections_count !== undefined && (
+                      <p className="text-[10px] text-emerald-400/90 mt-1 font-mono">
+                        Collections: {mongoStatus.collections_count} &bull; Latency Ping: {mongoStatus.ping ?? 1} ms
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
 
