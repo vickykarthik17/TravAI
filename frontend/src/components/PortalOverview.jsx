@@ -19,6 +19,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { formatCurrency } from '../utils/currency';
+import { formatDateTime, formatRelativeTime } from '../utils/date';
 import { LinearShowcaseSlider } from './LinearShowcaseSlider';
 
 const Stat = ({ label, value, detail, icon: Icon, tone, accentGlow }) => (
@@ -262,8 +263,8 @@ export const PortalOverview = ({ metrics, auditLogs, onNavigate, currency = 'USD
                     </p>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono text-slate-400 whitespace-nowrap">
-                  {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                <span className="text-[10px] font-mono text-cyan-300 whitespace-nowrap bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm">
+                  {formatRelativeTime(log.timestamp)}
                 </span>
               </div>
             ))

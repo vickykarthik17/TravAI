@@ -18,6 +18,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { formatCurrency } from '../utils/currency';
+import { getTodayStr, formatDate } from '../utils/date';
 
 const CATEGORIES = [
   { id: 'ALL', label: 'All Inventory', icon: Compass },
@@ -105,7 +106,7 @@ export const TravelMarketplace = ({ currency = 'USD' }) => {
   // Checkout Modal State
   const [travelerName, setTravelerName] = useState('Portal Administrator');
   const [travelerEmail, setTravelerEmail] = useState('admin@grandresort.com');
-  const [bookingDate, setBookingDate] = useState('2026-09-12');
+  const [bookingDate, setBookingDate] = useState(() => getTodayStr(1));
   const [quantity, setQuantity] = useState(1);
   const [promoCode, setPromoCode] = useState('');
   const [discountPct, setDiscountPct] = useState(0);

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { formatCurrency } from '../utils/currency';
+import { formatDate } from '../utils/date';
 
 export const RevenueManagerAI = ({ rates, onRatesUpdated, currency = 'USD' }) => {
   const [selectedRate, setSelectedRate] = useState(null);
@@ -163,8 +164,8 @@ export const RevenueManagerAI = ({ rates, onRatesUpdated, currency = 'USD' }) =>
                     </td>
 
                     {/* Date */}
-                    <td className="py-4 px-4 font-medium text-slate-400">
-                      {rate.date_str}
+                    <td className="py-4 px-4 font-medium text-slate-300">
+                      {formatDate(rate.date_str)}
                     </td>
 
                     {/* Current Rate */}

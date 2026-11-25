@@ -45,6 +45,7 @@ async def startup_event():
         await crud.ensure_default_users(db)
         await crud.reconcile_due_checkouts(db)
         await crud.ensure_extended_seeds(db)
+        await crud.reconcile_dynamic_dates(db)
 
 async def get_current_user_optional(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),

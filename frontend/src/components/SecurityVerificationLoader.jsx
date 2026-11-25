@@ -38,10 +38,11 @@ export const SecurityVerificationLoader = ({ onComplete, duration = 2200, isInit
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center select-none transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center select-none transition-opacity duration-500 bg-[#050711] ${
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       style={{
+        backgroundColor: '#050711',
         background: 'radial-gradient(circle 700px at 50% 50%, rgba(245, 158, 11, 0.08), transparent 70%), radial-gradient(circle 900px at 50% 15%, rgba(6, 182, 212, 0.07), transparent 70%), linear-gradient(180deg, #050711 0%, #080C1A 45%, #050713 100%)',
       }}
     >

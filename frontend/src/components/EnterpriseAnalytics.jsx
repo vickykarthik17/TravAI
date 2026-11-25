@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { formatCurrency } from '../utils/currency';
+import { getTodayStr, formatDate } from '../utils/date';
 
 export const EnterpriseAnalytics = ({ metrics, currency = 'USD', user }) => {
   const [insights, setInsights] = useState([]);
@@ -32,7 +33,7 @@ export const EnterpriseAnalytics = ({ metrics, currency = 'USD', user }) => {
   const [expCategory, setExpCategory] = useState('Meals');
   const [expAmount, setExpAmount] = useState('45.00');
   const [expMerchant, setExpMerchant] = useState('Urban Bistro SF');
-  const [expDate, setExpDate] = useState('2026-09-09');
+  const [expDate, setExpDate] = useState(() => getTodayStr(0));
   const [expNotes, setExpNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -316,7 +317,7 @@ export const EnterpriseAnalytics = ({ metrics, currency = 'USD', user }) => {
                   <td className="py-3.5 px-4 font-bold text-white">{exp.employee_name}</td>
                   <td className="py-3.5 px-4 text-slate-300">{exp.category}</td>
                   <td className="py-3.5 px-4 font-semibold text-slate-200">{exp.merchant}</td>
-                  <td className="py-3.5 px-4 text-slate-400">{exp.date}</td>
+                  <td className="py-3.5 px-4 text-slate-300 font-medium">{formatDate(exp.date)}</td>
                   <td className="py-3.5 px-4 font-bold text-cyan-400">{formatCurrency(exp.amount, currency)}</td>
                   <td className="py-3.5 px-4">
                     <span

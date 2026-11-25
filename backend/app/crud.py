@@ -1371,3 +1371,43 @@ async def ensure_extended_seeds(db: AsyncSession) -> None:
 
     await db.commit()
 
+async def reconcile_dynamic_dates(db: AsyncSession):
+    """Ensure all seeded rates, bookings, corporate travel dates, and expenses reflect current dates."""
+    today = datetime.date.today()
+    today_str = today.isoformat()
+
+    # 1. Update Dynamic Rates
+    rates_res = await db.execute(select(models.DynamicRate))
+    rates = rates_res.scalars().all()
+    for idx, r in enumerate(rates):
+        if not r.date_str or "2026-09" in r.date_str:
+            offset = idx % 3
+            r.date_str = (today + datetime.timedelta(days=offset)).isoformat()
+
+    # 2. Update Bookings
+    bookings_res = await db.execute(select(models.Booking))
+    bookings = bookings_res.scalars().all()
+    for idx, b in enumerate(bookings):
+        if not b.check_in_date or "2026-09" in b.check_in_date:
+            b.check_in_date = (today - datetime.timedelta(days=1 if idx == 0 else 0)).isoformat()
+            b.check_out_date = (today + datetime.timedelta(days=3 + idx)).isoformat()
+
+    # 3. Update Corporate Requests
+    corp_res = await db.execute(select(models.CorporateTravelRequest))
+    corp_reqs = corp_res.scalars().all()
+    for idx, c in enumerate(corp_reqs):
+        if not c.travel_dates or "2026-09" in c.travel_dates:
+            d_start = today + datetime.timedelta(days=2 + idx * 3)
+            d_end = d_start + datetime.timedelta(days=3)
+            c.travel_dates = f"{d_start.isoformat()} to {d_end.isoformat()}"
+
+    # 4. Update Expenses
+    exp_res = await db.execute(select(models.ExpenseRecord))
+    expenses = exp_res.scalars().all()
+    for idx, e in enumerate(expenses):
+        if not e.date or "2026-09" in e.date:
+            e.date = (today - datetime.timedelta(days=idx)).isoformat()
+
+    await db.commit()
+
+

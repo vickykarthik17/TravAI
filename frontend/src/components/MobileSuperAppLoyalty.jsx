@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { formatCurrency } from '../utils/currency';
+import { formatTime, formatDate, getTodayStr } from '../utils/date';
 
 const LOCAL_PLACES = [
   { id: 1, name: 'Gary Danko Michelin Dining', category: 'Fine Dining', dist: '0.8 km', rating: 4.9, icon: Sparkles, color: 'text-amber-500' },
@@ -213,7 +214,9 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
           <div className="bg-slate-950 text-white rounded-[36px] overflow-hidden pt-8 pb-4 flex flex-col h-[640px] relative border border-slate-800">
             {/* Top Bar */}
             <div className="px-5 py-2 flex items-center justify-between text-[11px] text-slate-400">
-              <span className="font-bold">09:41</span>
+              <span className="font-bold font-mono text-slate-200">
+                {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span>5G · 100%</span>
@@ -292,7 +295,7 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                         <Zap className="w-3.5 h-3.5" />
                         <span>Club Lounge Access</span>
                       </div>
-                      <p className="text-[10px] text-slate-400">Floor 24 · Valid through Sep 12</p>
+                      <p className="text-[10px] text-slate-400">Floor 24 · Valid through {formatDate(getTodayStr(3), 'short')}</p>
                     </div>
                   </div>
                 </>
@@ -304,7 +307,7 @@ export const MobileSuperAppLoyalty = ({ user, currency = 'USD' }) => {
                   <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                     <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-400">Hotel Stay</span>
                     <p className="font-bold text-slate-200">Nexgile Grand Resort</p>
-                    <p className="text-[10px] text-slate-400">Executive Suite 101 · Check-out Sep 12</p>
+                    <p className="text-[10px] text-slate-400">Executive Suite 101 · Check-out {formatDate(getTodayStr(3), 'short')}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
                     <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-purple-500/20 text-purple-400">Flight UA-842</span>

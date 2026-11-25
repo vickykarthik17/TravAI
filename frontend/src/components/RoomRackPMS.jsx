@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { formatCurrency } from '../utils/currency';
+import { getTodayStr, formatDate } from '../utils/date';
 
 export const RoomRackPMS = ({
   rooms,
@@ -84,8 +85,8 @@ export const RoomRackPMS = ({
   const [newGuestName, setNewGuestName] = useState('');
   const [newGuestEmail, setNewGuestEmail] = useState('');
   const [newRoomType, setNewRoomType] = useState('Executive Suite');
-  const [newCheckIn, setNewCheckIn] = useState('2026-09-08');
-  const [newCheckOut, setNewCheckOut] = useState('2026-09-11');
+  const [newCheckIn, setNewCheckIn] = useState(() => getTodayStr(0));
+  const [newCheckOut, setNewCheckOut] = useState(() => getTodayStr(3));
   const [paymentMethod, setPaymentMethod] = useState('Card');
   const [cardLast4, setCardLast4] = useState('4242');
   const [paymentStatus, setPaymentStatus] = useState('');

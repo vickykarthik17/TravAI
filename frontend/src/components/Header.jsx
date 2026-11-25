@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Building2,
   LayoutDashboard,
@@ -27,6 +27,7 @@ import {
   CheckCircle2,
   X,
   Menu,
+  Clock,
 } from 'lucide-react';
 import { formatCurrency, CURRENCY_RATES } from '../utils/currency';
 import { LANGUAGES, getTranslation } from '../utils/i18n';
@@ -64,6 +65,12 @@ export const Header = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const notifications = [
     { id: 1, title: 'AI Surge Forecast Active', desc: 'Regional Tech Summit lift +18% detected across OTAs', time: '5m ago' },
@@ -101,6 +108,27 @@ export const Header = ({
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
+          </div>
+
+          {/* Live Resort Operations Clock & Calendar Badge */}
+          <div className="px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-slate-900/95 via-[#0b1022]/95 to-slate-900/95 border border-amber-500/25 shadow-lg flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.2)]">
+                <Clock className="w-4 h-4 text-amber-400" />
+              </div>
+              <div>
+                <div className="text-[11px] font-bold text-white tracking-wide">
+                  {currentTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                </div>
+                <div className="text-[10px] font-mono text-cyan-400 font-semibold flex items-center gap-1.5 mt-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+                </div>
+              </div>
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+              Live Duty
+            </span>
           </div>
 
           {/* Global Command / Search Bar (Sidebar) */}

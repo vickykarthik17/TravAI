@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Clock, User } from 'lucide-react';
+import { formatDateTime, formatRelativeTime } from '../utils/date';
 
 export const AuditTrailLog = ({ logs }) => {
   return (
@@ -40,7 +41,8 @@ export const AuditTrailLog = ({ logs }) => {
             </thead>
             <tbody className="divide-y divide-slate-800/80 text-slate-300">
               {logs.map((log) => {
-                const formattedDate = new Date(log.timestamp).toLocaleString();
+                const formattedDate = formatDateTime(log.timestamp);
+                const relativeTime = formatRelativeTime(log.timestamp);
 
                 let actionBadgeColor = 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
                 if (log.action.includes('OVERRIDE')) actionBadgeColor = 'bg-amber-500/15 text-amber-300 border-amber-500/30';
@@ -51,10 +53,11 @@ export const AuditTrailLog = ({ logs }) => {
                   <tr key={log.id} className="hover:bg-cyan-950/20 transition-colors even:bg-slate-900/40">
                     
                     {/* Timestamp */}
-                    <td className="py-3.5 px-4 text-slate-400 font-mono text-[11px] whitespace-nowrap">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-slate-500" />
-                        {formattedDate}
+                    <td className="py-3.5 px-4 text-slate-300 font-mono text-[11px] whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span className="font-semibold text-white">{formattedDate}</span>
+                        <span className="text-[10px] text-slate-400">({relativeTime})</span>
                       </div>
                     </td>
 

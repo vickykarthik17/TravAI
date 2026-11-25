@@ -51,6 +51,15 @@ async def seed_data():
 
         await db.flush()
 
+        today = datetime.date.today()
+        d0 = today.isoformat()
+        d1 = (today + datetime.timedelta(days=1)).isoformat()
+        d2 = (today + datetime.timedelta(days=2)).isoformat()
+        d3 = (today + datetime.timedelta(days=3)).isoformat()
+        d4 = (today + datetime.timedelta(days=4)).isoformat()
+        d7 = (today + datetime.timedelta(days=7)).isoformat()
+        d_yesterday = (today - datetime.timedelta(days=1)).isoformat()
+
         # 3. Seed 3 Active Bookings
         bookings_data = [
             {
@@ -60,8 +69,8 @@ async def seed_data():
                 "property_id": 1,
                 "room_unit_id": room_objs[0].id,
                 "room_type": "Executive Suite",
-                "check_in_date": "2026-09-08",
-                "check_out_date": "2026-09-12",
+                "check_in_date": d0,
+                "check_out_date": d4,
                 "total_amount": 1800.0,
                 "status": "Confirmed"
             },
@@ -72,8 +81,8 @@ async def seed_data():
                 "property_id": 1,
                 "room_unit_id": room_objs[3].id,
                 "room_type": "Studio Suite",
-                "check_in_date": "2026-09-07",
-                "check_out_date": "2026-09-10",
+                "check_in_date": d_yesterday,
+                "check_out_date": d2,
                 "total_amount": 1020.0,
                 "status": "Confirmed"
             },
@@ -84,8 +93,8 @@ async def seed_data():
                 "property_id": 1,
                 "room_unit_id": room_objs[6].id,
                 "room_type": "Deluxe King",
-                "check_in_date": "2026-09-08",
-                "check_out_date": "2026-09-15",
+                "check_in_date": d0,
+                "check_out_date": d7,
                 "total_amount": 2030.0,
                 "status": "Confirmed"
             }
@@ -98,7 +107,7 @@ async def seed_data():
         rates_data = [
             {
                 "room_type": "Executive Suite",
-                "date_str": "2026-09-09",
+                "date_str": d0,
                 "current_rate": 450.0,
                 "ai_recommended_rate": 535.0,
                 "confidence_score": 0.94,
@@ -107,7 +116,7 @@ async def seed_data():
             },
             {
                 "room_type": "Presidential Suite",
-                "date_str": "2026-09-09",
+                "date_str": d0,
                 "current_rate": 1200.0,
                 "ai_recommended_rate": 1450.0,
                 "confidence_score": 0.88,
@@ -116,7 +125,7 @@ async def seed_data():
             },
             {
                 "room_type": "Deluxe King",
-                "date_str": "2026-09-09",
+                "date_str": d1,
                 "current_rate": 280.0,
                 "ai_recommended_rate": 315.0,
                 "confidence_score": 0.96,
@@ -125,7 +134,7 @@ async def seed_data():
             },
             {
                 "room_type": "Penthouse Suite",
-                "date_str": "2026-09-10",
+                "date_str": d2,
                 "current_rate": 1850.0,
                 "ai_recommended_rate": 2100.0,
                 "confidence_score": 0.91,
@@ -144,7 +153,7 @@ async def seed_data():
                 "employee_email": "d.sterling@fintech.io",
                 "department": "Global Product Management",
                 "destination": "San Francisco, CA",
-                "travel_dates": "2026-09-15 to 2026-09-18",
+                "travel_dates": f"{(today + datetime.timedelta(days=3)).isoformat()} to {(today + datetime.timedelta(days=6)).isoformat()}",
                 "estimated_budget": 1450.0,
                 "status": "Pending",
                 "policy_compliant": True,
@@ -156,7 +165,7 @@ async def seed_data():
                 "employee_email": "e.rostova@quantum.ai",
                 "department": "AI Research & Development",
                 "destination": "San Jose Convention Hub",
-                "travel_dates": "2026-09-20 to 2026-09-24",
+                "travel_dates": f"{(today + datetime.timedelta(days=5)).isoformat()} to {(today + datetime.timedelta(days=9)).isoformat()}",
                 "estimated_budget": 2890.0,
                 "status": "Pending",
                 "policy_compliant": False,
@@ -168,7 +177,7 @@ async def seed_data():
                 "employee_email": "j.miller@apexcapital.org",
                 "department": "Enterprise Sales",
                 "destination": "San Francisco Downtown",
-                "travel_dates": "2026-09-11 to 2026-09-13",
+                "travel_dates": f"{(today + datetime.timedelta(days=1)).isoformat()} to {(today + datetime.timedelta(days=3)).isoformat()}",
                 "estimated_budget": 890.0,
                 "status": "Approved",
                 "policy_compliant": True,
